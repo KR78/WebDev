@@ -206,10 +206,7 @@ height: 4em;
           </li>
         </ul>
           <ul class='nav navbar-nav navbar-right' style='position:relative; left:50px;'>  
-          <?php $host = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-          if($host == 'localhost/wdev/index.php') 
-          {
-              echo "<li class='dropdown'>
+             <li class='dropdown'>
               <a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='fa fa-cog'></i>&nbsp;Themes <b class='caret'></b></a>
               <ul class='dropdown-menu'>
               <li><a href='index.php?choice=cyborg'><i class='fa fa-chevron-circle-right'></i>&nbsp;Default</a></li>
@@ -228,8 +225,7 @@ height: 4em;
               <li><a href='index.php?choice=darkly'><i class='fa fa-chevron-circle-right'></i>&nbsp;Fladark</a></li>
               <li><a href='index.php?choice=paper'><i class='fa fa-chevron-circle-right'></i>&nbsp;Paper</a></li>
               </ul>
-              </li>";
-        } ?>
+              </li>
           <?php 
             if(!isset($_SESSION['username']) || $_SESSION['username'] == "")
             {
