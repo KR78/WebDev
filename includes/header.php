@@ -193,7 +193,15 @@ height: 4em;
           echo '<li><a href="./contact.php"><i class="fa fa-phone-square fa-lg"></i>&nbsp;Contact us</a></li>';
           } ?>
           <li class="dropdown">
-          <a href="./productlist.php"><i class="fa fa-suitcase fa-lg"></i> Products <!--<b class="caret"></b>--></a>
+          <?php 
+            if(!isset($_SESSION['username']) || $_SESSION['username'] == "")
+            {
+            echo '<a href="./login.php"><i class="fa fa-suitcase fa-lg"></i> Products <!--<b class="caret"></b>--></a>';
+            }
+            else if($_SESSION['username'] !== "") 
+            {
+            echo '<a href="./productlist.php"><i class="fa fa-suitcase fa-lg"></i> Products <!--<b class="caret"></b>--></a>';
+            } ?>
               <!--<ul class="dropdown-menu">
               <li><a href="#">Action</a></li>
               <li><a href="#">Another action</a></li>
@@ -243,8 +251,27 @@ height: 4em;
             </li>";
             }
             else if($_SESSION['username'] !== "") {
+            $con=mysqli_connect("localhost","root","","batiks");
+            // Check connection
+            if (mysqli_connect_errno())
+              {
+              echo "Failed to connect to MySQL: " . mysqli_connect_error();
+              }
+            $user = $_SESSION['username'];
+            $sql="SELECT * FROM carts WHERE customer = '$user' ";
+
+            if ($result=mysqli_query($con,$sql))
+              {
+              // Return the number of rows in result set
+              $rowcount=mysqli_num_rows($result);
+              $items = $rowcount=mysqli_num_rows($result);
+              // Free result set
+              mysqli_free_result($result);
+              }
+
+            mysqli_close($con);
             echo "
-            <li><a href='./cart.php'><i class='fa fa-shopping-cart'></i> Cart (0)</a></li>
+            <li><a href='./cart.php'><i class='fa fa-shopping-cart'></i> Cart ($items)</a></li>
             <li class='dropdown'>
             <a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='fa fa-user'></i>&nbsp; ".$_SESSION['username']." <b class='caret'></b></a>
             <ul class='dropdown-menu'>

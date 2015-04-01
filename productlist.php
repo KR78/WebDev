@@ -1,29 +1,4 @@
 <?php include 'includes/header.php'; ?>
-<?php
-if(isset($_POST['cart']))
-
-{
-    $conn = mysql_connect("localhost","root","", "batiks") or die("Error " . mysqli_error($conn)); 
-    
-    $prod_id        = $_POST['prod_id'];
-    $customer       = $_SESSION['username'];
-    $prod_name      = $_POST['prod_name'];
-    $prod_price     = $_POST['prod_price'];
-    $amount         = $_POST['amount'];
-
-    mysql_select_db('batiks');
-
-    $query = "INSERT INTO carts('customer','prod_id','prod_name','prod_price','amount') VALUES ('$customer','$prod_id','$prod_name','$prod_price', '$amount')";
-
-    $sql=mysql_query($query,$conn); 
-
-    if($sql)
-    {echo 'success';} 
-    else {echo 'sorry dude';}
-
-
-}
-?>
 <title>Product Page</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <style type="text/css">
@@ -89,9 +64,14 @@ if(isset($_POST['cart']))
         display: none;
     }
     }
-
+.alert-purple { border-color: #694D9F;background: #694D9F;color: #fff; }
+.alert-info-alt { border-color: #B4E1E4;background: #81c7e1;color: #fff; }
+.alert-danger-alt { border-color: #B63E5A;background: #E26868;color: #fff; }
+.alert-warning-alt { border-color: #F3F3EB;background: #E9CEAC;color: #fff; }
+.alert-success-alt { border-color: #19B99A;background: #20A286;color: #fff; }
+.glyphicon { margin-right:10px; }
+.alert a {color: gold;}
     </style>
-
 
           <div class="container-well">
     <div class="well well-sm">
@@ -124,38 +104,21 @@ while ($row=mysql_fetch_assoc($query))
                             <p class="lead">
                                  Ksh <?php echo $row['prod_price']?></p>
                         </div>
-                                                
                         <div class="col-xs-12 col-md-6">
-                        <form action="productlist.php" method="POST">
-                        <input type="hidden" name="prod_id"    value="<?php echo $row['prod_id']?>">
-                        <input type="hidden" name="prod_name"  value="<?php echo $row['prod_name']?>">
-                        <input type="hidden" name="prod_price" value="<?php echo $row['prod_price']?>">
-                        <?php
-                       if(!isset($_SESSION['username']) || $_SESSION['username'] == "")
-                       {
-
-                       }
-                       else {
-                        echo '<label for="">Amount</label>
-                        <select name="amount" id="">
+                        <form action="core/cart.php" method="POST" id="cart">
+                        <input type="hidden" name="prod_id"    value=<?php echo $row['prod_id']?>>
+                        <input type="hidden" name="prod_name"  value=<?php echo $row['prod_name']?>>
+                        <input type="hidden" name="prod_price" value=<?php echo $row['prod_price']?>>
+                        <input type="hidden" name="username"   value=<?php echo $_SESSION['username']?>>
+                        <label for="">Amount</label>
+                        <select name="amount">
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
                             <option>4</option>
                             <option>5</option>
-                        </select>';
-                       }
-                       ?>
-
-                       <?php
-                       if(!isset($_SESSION['username']) || $_SESSION['username'] == "")
-                       {
-                        echo '<a href="login.php" class="btn btn-info"><i class="fa fa-cart-arrow-down"></i> Add to cart</a>';
-                       }
-                       else {
-                        echo '<input name="cart" role="button" type="submit" value="Add To Cart" class="btn btn-info"/><i class="fa fa-cart-arrow-down"></i>';
-                       }
-                       ?>
+                        </select>
+                        <input type="submit" class="btn btn-info" name="cart" value="Add To Cart" />
                         </form>
                         </div>
                     </div>
@@ -174,4 +137,3 @@ $(document).ready(function() {
     $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
 });
 </script>
-@stop

@@ -103,7 +103,7 @@
     else{
 
           $sql=mysql_query("INSERT INTO `Products`(prod_name,prod_type,prod_price,prod_manu,prod_desc,prod_image,prod_entered_date,prod_entered_time)
-          values('$pname','$ptype','$pprice','$pmanu','$pdesc','$pimage','DATE: Auto CURDATE()',CURDATE())");
+          values('$pname','$ptype','$pprice','$pmanu','$pdesc','image/$pimage','DATE: Auto CURDATE()',CURDATE())");
 
 
     
